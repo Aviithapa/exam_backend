@@ -5,7 +5,7 @@ namespace App\Services\Subject;
 use App\Repositories\Subject\SubjectRepository;
 use Exception;
 
-class SubjectUpdater
+class SubjectUpdator
 {
     protected $subjectRepository;
 

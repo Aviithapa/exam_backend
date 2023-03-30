@@ -2,16 +2,23 @@
 
 namespace App\Imports;
 
-use Illuminate\Support\Collection;
+use App\Models\Subject;
+use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-
-class SubjectImport
+class SubjectImport implements ToModel, WithHeadingRow
 {
+
     /**
-     * @param Collection $collection
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function collection(Collection $collection)
+    public function model(array $row)
     {
-        //
+        return new Subject([
+            'name' => $row['name'],
+            'display_name' => $row['display_name']
+        ]);
     }
 }

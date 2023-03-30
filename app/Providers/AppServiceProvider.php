@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\Role;
 use App\Repositories\Role\EloquentRoleRepository;
 use App\Repositories\Role\RoleRepository;
+use App\Repositories\Student\EloquentStudentRepository;
+use App\Repositories\Student\StudentRepository;
 use App\Repositories\Subject\EloquentSubjectRepository;
 use App\Repositories\Subject\SubjectRepository;
 use App\Repositories\User\EloquentUserRepository;
@@ -40,6 +42,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             SubjectRepository::class,
             EloquentSubjectRepository::class
+        );
+
+        $this->app->bind(
+            StudentRepository::class,
+            EloquentStudentRepository::class
         );
     }
 }

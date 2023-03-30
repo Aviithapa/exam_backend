@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Roles\RoleController;
+use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Subject\SubjectController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +22,5 @@ Route::get('/', [UserController::class, 'index']);
 Route::apiResource('/users', UserController::class);
 Route::apiResource('/roles', RoleController::class);
 Route::apiResource('/subject', SubjectController::class);
+Route::apiResource('/student', StudentController::class);
+Route::post('importSubject', [SubjectController::class, 'importSubject']);
