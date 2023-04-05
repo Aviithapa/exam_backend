@@ -21,4 +21,9 @@ class Students extends Model
     {
         return $this->belongsToMany(Subject::class);
     }
+
+    public function attempts()
+    {
+        return $this->hasMany(StudentAttempt::class);
+    }
 }

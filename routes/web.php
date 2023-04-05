@@ -23,4 +23,4 @@ Route::apiResource('/users', UserController::class);
 Route::apiResource('/roles', RoleController::class);
 Route::apiResource('/subject', SubjectController::class);
 Route::apiResource('/student', StudentController::class);
-Route::post('importSubject', [SubjectController::class, 'importSubject']);
+Route::post('importSubject', [StudentController::class, 'importQuestions']);
