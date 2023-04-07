@@ -3,6 +3,7 @@
 namespace App\Services\Student;
 
 use App\Repositories\Student\StudentRepository;
+use App\Models\Subjects;
 
 class StudentCreator
 {
@@ -17,4 +18,6 @@ class StudentCreator
     {
         return $this->studentRepository->create($data);
     }
+
+    
 }

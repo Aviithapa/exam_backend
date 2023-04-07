@@ -19,6 +19,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
@@ -30,9 +31,31 @@ class StudentController extends Controller
         return StudentResource::collection($studentGetter->getPaginatedList());
     }
 
-    public function store(StudentCreateRequest $request, StudentCreator $studentCreator): JsonResponse
+    public function store(Request $request, StudentCreator $studentCreator): JsonResponse
     {
-        $data = $request->all();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255|unique:students',
+            'symbol_number' => 'required|string|max:255',
+            'photo' => 'required|file|mimes:jpg,png,jpeg|max:5000',
+            'phone_number' => 'required|string|max:10|min:10|unique:students',
+            'date_of_birth' => 'required|string|max:255'
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 401);
+        
+        }
+        $data = [];
+        $data['name'] = $request->name; 
+        $data['email'] = $request->email;
+        $data['symbol_number'] = $request->symbol_number;
+        $data['phone_number'] = $request->phone_number;
+        $data['date_of_birth'] = $request->date_of_birth;
+    
+        $destinationPath = 'images';
+        $myimage = time(). '.'.$request->file('photo')->getClientOriginalName();
+        $request->file('photo')->storeAs($destinationPath, $myimage, 'public');
+        $data['photo'] = $myimage;
         return $this->successResponse(
             StudentResource::make($studentCreator->store($data)),
             __('Student created successfully'),
@@ -133,4 +156,32 @@ class StudentController extends Controller
         // Redirect back with success message
         return redirect()->back()->with('success', 'Questions imported successfully.');
     }
+
+    public function verify_student(Request $request, StudentGetter $studentGetter){
+        $validator= Validator::make($request->all(), [
+            'symbol_number' => 'required|string|max:255',
+            'date_of_birth' => 'required|string|max:255',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 401);
+        }
+        $data= $studentGetter->bySnDob($request->symbol_number, $request->date_of_birth);
+        if($data){
+            return response()->json([
+                'status' => 200,
+                'message' => 'Student Exists',
+                'student' => $data,
+            ]);
+        }else{
+            return response()->json([
+                'status' => 400,
+                'message' => 'Student does not exist',
+                
+            ]);
+        }
+
+    }
+
+    
+
 }

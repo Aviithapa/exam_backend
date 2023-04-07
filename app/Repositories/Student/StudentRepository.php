@@ -6,4 +6,5 @@ use App\Repositories\Repository;
 
 interface StudentRepository  extends  Repository
 {
+    public function checkBySnDob($sn, $dob);
 }

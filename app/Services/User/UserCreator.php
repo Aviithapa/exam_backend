@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Models\Role;
 use App\Repositories\User\UserRepository;
+use Illuminate\Support\Facades\Auth;
 
 class UserCreator
 {
@@ -16,9 +17,20 @@ class UserCreator
 
     public function store($data)
     {
+        
         $role = Role::where('name', $data['role'])->first();
         $user = $this->userRepository->create($data);
-        $user->roles()->attach($role);
+        $user->roles()->attach($role, ['user_type'=>$data['role']]);
+        // $token = Auth::login($user);
+        
         return $user;
+    }
+
+    public function assign_role($userId, $rol)
+    {
+        $role = Role::where('name', $rol)->first();
+        $user = $this->userRepository->findById($userId);
+        $user->roles()->attach($role, ['user_type'=>$rol]);
+        return array('user'=>$user, 'role'=>$role);
     }
 }

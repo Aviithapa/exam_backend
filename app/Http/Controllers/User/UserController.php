@@ -17,6 +17,11 @@ class UserController extends Controller
 {
     use ApiResponser;
 
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api', ['except' => ['login','register']]);
+    // }
+
     public function index(UserGetter $userGetter)
     {
         return UserResource::collection($userGetter->getPaginatedList());
@@ -26,6 +31,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         $data['password'] = bcrypt($data['password']);
+
         return $this->successResponse(
             UserResource::make($userCreator->store($data)),
             __('User created successfully'),
@@ -53,4 +59,24 @@ class UserController extends Controller
             Response::HTTP_CREATED
         );
     }
+
+    public function create_user_role(Request $request, UserCreator $userCreator, $userId, $role){
+        $data = $userCreator->assign_role($userId, $role);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Role assigned to user',
+            'data' => $data
+        ]);
+    }
+
+    public function get_user_role(Request $request, UserGetter $userGetter, $userId){
+        $data = $userGetter->get_role($userId);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Role assigned to user',
+            'role' => $data
+        ]);
+    }
+    
+
 }

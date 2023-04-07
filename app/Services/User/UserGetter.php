@@ -46,4 +46,9 @@ class UserGetter
     {
         return $this->userRepository->findById($id);
     }
+
+    public function get_role($userId){
+        $user = $this->userRepository->findById($userId);
+        return $user->roles;
+    }
 }

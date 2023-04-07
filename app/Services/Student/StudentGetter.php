@@ -47,4 +47,8 @@ class StudentGetter
     {
         return $this->studentRepository->findById($id);
     }
+
+    public function bySnDob($sn, $dob){
+        return $this->studentRepository->checkBySnDob($sn, $dob);
+    }
 }

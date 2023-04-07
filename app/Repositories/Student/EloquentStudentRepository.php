@@ -23,4 +23,8 @@ class EloquentStudentRepository extends RepositoryImplementation implements Stud
             ->latest()
             ->paginate($limit);
     }
+
+    public function checkBySnDob($sn, $dob){
+        return Students::where('symbol_number', $sn)->where('date_of_birth', $dob)->first();
+    }
 }
