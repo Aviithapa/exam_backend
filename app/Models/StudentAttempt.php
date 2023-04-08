@@ -17,7 +17,7 @@ class StudentAttempt extends Model
 
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Students::class);
     }
 
     public function question()
@@ -25,8 +25,9 @@ class StudentAttempt extends Model
         return $this->belongsTo(Question::class);
     }
 
-    public function option()
+    public function options()
     {
-        return $this->belongsTo(Option::class);
+        return $this->belongsToMany(Option::class, 'attempt_option', 'attempt_id', 'option_id')
+            ->withTimestamps();
     }
 }

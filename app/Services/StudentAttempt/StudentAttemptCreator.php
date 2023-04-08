@@ -2,19 +2,29 @@
 
 namespace App\Services\StudentAttempt;
 
-use App\Repositories\Student\StudentRepository;
+use App\Repositories\StudentAttempt\StudentAttemptRepository;
 
 class StudentAttemptCreator
 {
-    protected $studentRepository;
+    protected $studentAttemptRepository;
 
-    public function __construct(StudentRepository $studentRepository)
+    public function __construct(StudentAttemptRepository $studentAttemptRepository)
     {
-        $this->studentRepository = $studentRepository;
+        $this->studentAttemptRepository = $studentAttemptRepository;
     }
 
     public function store($data)
     {
-        return $this->studentRepository->create($data);
+
+        $optionIds = $data['option_ids'];
+        // Create a new attempt
+        // dd($optionIds);
+        $attempt
+            = $this->studentAttemptRepository->create($data);
+
+        // Attach selected options to the attempt
+        $attempt->options()->attach($optionIds);
+
+        return response()->json(['message' => 'Attempt stored successfully'], 201);
     }
 }

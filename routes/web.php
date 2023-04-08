@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Questions\QuestionsController;
 use App\Http\Controllers\Roles\RoleController;
+use App\Http\Controllers\Student\StudentAttemptController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\StudentAttempt\StudentAttemptController as StudentAttemptStudentAttemptController;
 use App\Http\Controllers\Subject\SubjectController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +23,4 @@ use Illuminate\Support\Facades\Route;
 Route::post('importSubject', [QuestionsController::class, 'importQuestions']);
 Route::apiResource('/questions', QuestionsController::class);
 Route::get('/getRandomQuestion/{subjectId}', [QuestionsController::class, 'getRandomQuestion']);
+Route::apiResource('/attempt', StudentAttemptStudentAttemptController::class);

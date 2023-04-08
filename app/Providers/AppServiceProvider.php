@@ -11,6 +11,8 @@ use App\Repositories\Role\EloquentRoleRepository;
 use App\Repositories\Role\RoleRepository;
 use App\Repositories\Student\EloquentStudentRepository;
 use App\Repositories\Student\StudentRepository;
+use App\Repositories\StudentAttempt\EloquentStudentAttemptRepository;
+use App\Repositories\StudentAttempt\StudentAttemptRepository;
 use App\Repositories\Subject\EloquentSubjectRepository;
 use App\Repositories\Subject\SubjectRepository;
 use App\Repositories\User\EloquentUserRepository;
@@ -61,6 +63,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             OptionRepository::class,
             EloquentOptionRepository::class
+        );
+
+        $this->app->bind(
+            StudentAttemptRepository::class,
+            EloquentStudentAttemptRepository::class
         );
     }
 }
