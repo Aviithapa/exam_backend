@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Questions\QuestionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,5 +30,3 @@ Route::apiResource('/roles', RoleController::class);
 Route::apiResource('/subject', SubjectController::class);
 Route::apiResource('/student', StudentController::class);
 Route::apiResource('/questions', QuestionsController::class);
-
-// Route::post('/importSubject', [StudentController::class, 'importQuestions']);
