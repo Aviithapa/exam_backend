@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Questions\QuestionsController;
 use App\Http\Controllers\Roles\RoleController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Subject\SubjectController;
@@ -17,10 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [UserController::class, 'index']);
-
-Route::apiResource('/users', UserController::class);
-Route::apiResource('/roles', RoleController::class);
-Route::apiResource('/subject', SubjectController::class);
-Route::apiResource('/student', StudentController::class);
-Route::post('importSubject', [StudentController::class, 'importQuestions']);
+Route::post('importSubject', [QuestionsController::class, 'importQuestions']);
+Route::apiResource('/questions', QuestionsController::class);
+Route::get('/getRandomQuestion/{subjectId}', [QuestionsController::class, 'getRandomQuestion']);

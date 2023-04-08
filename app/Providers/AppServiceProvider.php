@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Role;
+use App\Repositories\Option\EloquentOptionRepository;
+use App\Repositories\Option\OptionRepository;
+use App\Repositories\Questions\EloquentQuestionsRepository;
+use App\Repositories\Questions\QuestionsRepository;
 use App\Repositories\Role\EloquentRoleRepository;
 use App\Repositories\Role\RoleRepository;
 use App\Repositories\Student\EloquentStudentRepository;
@@ -47,6 +51,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             StudentRepository::class,
             EloquentStudentRepository::class
+        );
+
+        $this->app->bind(
+            QuestionsRepository::class,
+            EloquentQuestionsRepository::class
+        );
+
+        $this->app->bind(
+            OptionRepository::class,
+            EloquentOptionRepository::class
         );
     }
 }
