@@ -45,4 +45,9 @@ class QuestionsGetter
     {
         return $this->questionRepository->findById($id);
     }
+
+    public function getQuestionBasedOnSubject($id)
+    {
+        return $this->questionRepository->getAll()->where('subject_id', $id);
+    }
 }

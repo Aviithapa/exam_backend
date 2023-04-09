@@ -100,10 +100,10 @@ class QuestionsImports
                 $correctAnswerArray = explode(':', $correctAnswerData);
                 foreach ($correctAnswerArray as $correctAnswer) {
 
-                    $correctAnswerWithoutSpaces =
-                        str_replace(' ', '', $correctAnswer);
+                    // $correctAnswerWithoutSpaces =
+                    //     str_replace(' ', '', $correctAnswer);
                     $option = $this->optionRepository->getAll()->where('question_id', $question->id)
-                        ->where('option_text', $correctAnswerWithoutSpaces)
+                        ->where('option_text', $correctAnswer)
                         ->first();
 
 

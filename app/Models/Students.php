@@ -15,12 +15,13 @@ class Students extends Model implements JWTSubject
         'phone_number',
         'subject',
         'administrator',
-        'date_of_birth'
+        'date_of_birth',
+        'subject_id'
     ];
 
-    public function subjects()
+    public function subject()
     {
-        return $this->belongsToMany(Subject::class);
+        return $this->belongsTo(Subject::class);
     }
 
     public function attempts()

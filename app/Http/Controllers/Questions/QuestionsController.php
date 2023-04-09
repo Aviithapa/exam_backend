@@ -100,4 +100,9 @@ class QuestionsController extends Controller
             Response::HTTP_CREATED
         );
     }
+
+    public function getQuestionBasedOnSubject($id, QuestionsGetter $questionGetter)
+    {
+        return QuestionsResource::collection($questionGetter->getQuestionBasedOnSubject($id));
+    }
 }

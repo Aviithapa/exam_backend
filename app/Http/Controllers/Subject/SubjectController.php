@@ -64,7 +64,8 @@ class SubjectController extends Controller
 
     public function importSubject(Request $request)
     {
-        Excel::import(new  StudentImport(), $request->file('file')->store('temp'));
+
+        Excel::import(new  SubjectImport(), $request->file('file')->store('temp'));
         return $this->successResponse(
             __('Subject import successfully'),
             Response::HTTP_CREATED

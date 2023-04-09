@@ -30,3 +30,23 @@ Route::apiResource('/roles', RoleController::class);
 Route::apiResource('/subject', SubjectController::class);
 Route::apiResource('/student', StudentController::class);
 Route::apiResource('/questions', QuestionsController::class);
+Route::post('/importSubject', [SubjectController::class, 'importSubject']);
+Route::post('/importQuestions', [QuestionsController::class, 'importQuestions']);
+Route::post('/importStudents', [StudentController::class, 'importStudent']);
+Route::get('/getStudentBasedOnSubject/{subjectId}', [StudentController::class, 'getStudentBasedOnSubject']);
+Route::get('/getQuestionBasedOnSubject/{subjectId}', [QuestionsController::class, 'getQuestionBasedOnSubject']);
+
+// Route::middleware(['auth:api'])->group(
+//     function () {
+//         Route::apiResource('/questions', QuestionsController::class);
+//     }
+// );
+Route::get('/getRandomQuestion/{subjectId}', [QuestionsController::class, 'getRandomQuestion']);
+Route::middleware(['jwt.student.verify'])->group(
+    function () {
+        Route::apiResource('/attempt', StudentAttemptStudentAttemptController::class);
+    }
+);
+
+Route::post('/generateToken', [AuthController::class, 'generateToken']);
+Route::post('/login', [AuthController::class, 'login']);

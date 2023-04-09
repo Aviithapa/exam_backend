@@ -47,4 +47,9 @@ class StudentGetter
     {
         return $this->studentRepository->findById($id);
     }
+
+    public function getStudentBasedOnSubject($id)
+    {
+        return $this->studentRepository->getAll()->where('subject_id', $id);
+    }
 }

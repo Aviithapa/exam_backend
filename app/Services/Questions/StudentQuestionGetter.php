@@ -35,7 +35,7 @@ class StudentQuestionGetter
     public function getRandomQuestionsForStudents($subjectId)
     {
 
-        $question = Question::orderByRaw('RAND()')->where('subject_id', $subjectId)->take(5)->get();
+        $question = Question::orderByRaw('RAND()')->take(10)->get();
         return $question;
     }
 }
