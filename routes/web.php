@@ -23,5 +23,11 @@ Route::middleware(['auth:api'])->group(
     }
 );
 Route::get('/getRandomQuestion/{subjectId}', [QuestionsController::class, 'getRandomQuestion']);
-Route::apiResource('/attempt', StudentAttemptStudentAttemptController::class);
+Route::middleware(['jwt.student.verify'])->group(
+    function () {
+        Route::apiResource('/attempt', StudentAttemptStudentAttemptController::class);
+    }
+);
+
+Route::post('/generateToken', [AuthController::class, 'generateToken']);
 Route::post('/login', [AuthController::class, 'login']);
