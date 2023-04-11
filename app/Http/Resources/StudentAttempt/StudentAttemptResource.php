@@ -19,6 +19,7 @@ class StudentAttemptResource extends JsonResource
             "question" => $this->question,
             "student"  => $this->student,
             "attempted_options" => $this->options,
+            "correct_answer" => $this->correctAnswer
         ];
     }
 }

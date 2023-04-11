@@ -34,7 +34,13 @@ class StudentAttempt extends Model
 
     public function attempt()
     {
-        return $this->belongsToMany(StudentAttempt::class, 'student_attempt', 'question_id', 'student_id')
+        return $this->belongsToMany(StudentAttempt::class, 'attempt_option', 'attempt_id', 'option_id')
+            ->withTimestamps();
+    }
+
+    public function correctAnswer()
+    {
+        return $this->belongsToMany(Question::class, 'correct_answers', 'question_id', 'option_id')
             ->withTimestamps();
     }
 }

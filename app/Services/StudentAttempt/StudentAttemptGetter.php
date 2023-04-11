@@ -43,6 +43,6 @@ class StudentAttemptGetter
      */
     public function show($id)
     {
-        return $this->studentAttemptRepository->findById($id);
+        return $this->studentAttemptRepository->findBy('student_id', '=',  $id);
     }
 }

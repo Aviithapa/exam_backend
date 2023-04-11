@@ -33,9 +33,9 @@ class StudentAttemptController extends Controller
         return $studentAttemptCreator->store($data);
     }
 
-    public function show(StudentGetter $studentGetter, $id)
+    public function show(StudentAttemptGetter $studentGetter, $id)
     {
-        return $this->successResponse(StudentResource::make($studentGetter->show($id)));
+        return $this->successResponse(StudentAttemptResource::collection($studentGetter->show($id)));
     }
 
     public function destroy(StudentUpdator $studentUpdater, $id)
