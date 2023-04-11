@@ -13,6 +13,7 @@ class StudentAttempt extends Model
         'student_id',
         'question_id',
         'option_id',
+        'is_answered'
     ];
 
     public function student()
@@ -28,6 +29,12 @@ class StudentAttempt extends Model
     public function options()
     {
         return $this->belongsToMany(Option::class, 'attempt_option', 'attempt_id', 'option_id')
+            ->withTimestamps();
+    }
+
+    public function attempt()
+    {
+        return $this->belongsToMany(StudentAttempt::class, 'student_attempt', 'question_id', 'student_id')
             ->withTimestamps();
     }
 }

@@ -33,6 +33,7 @@ class QuestionsImports
     {
         // Get the file path
         $file = $data['file'];
+        // dd($data['subject_id']);
         $subjectId = $data['subject_id'];
         $filePath = $file->store('temp');
 

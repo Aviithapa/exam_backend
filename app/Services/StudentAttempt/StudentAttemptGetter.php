@@ -2,11 +2,8 @@
 
 namespace App\Services\StudentAttempt;
 
-use App\Repositories\Student\StudentRepository;
 use App\Repositories\StudentAttempt\StudentAttemptRepository;
 use Illuminate\Http\Request;
-use App\Repositories\Subject\SubjectRepository;
-use App\Repositories\User\UserRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**

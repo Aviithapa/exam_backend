@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Roles\RoleController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\StudentAttempt\StudentAttemptController;
 use App\Http\Controllers\Subject\SubjectController;
 use App\Http\Controllers\User\UserController;
 /*
@@ -35,18 +36,20 @@ Route::post('/importQuestions', [QuestionsController::class, 'importQuestions'])
 Route::post('/importStudents', [StudentController::class, 'importStudent']);
 Route::get('/getStudentBasedOnSubject/{subjectId}', [StudentController::class, 'getStudentBasedOnSubject']);
 Route::get('/getQuestionBasedOnSubject/{subjectId}', [QuestionsController::class, 'getQuestionBasedOnSubject']);
-
+Route::post('/allocateRandomQuestion', [QuestionsController::class, 'allocateRandomQuestion']);
 // Route::middleware(['auth:api'])->group(
 //     function () {
 //         Route::apiResource('/questions', QuestionsController::class);
 //     }
 // );
+Route::apiResource('/attempts', StudentAttemptController::class);
+
 Route::get('/getRandomQuestion/{subjectId}', [QuestionsController::class, 'getRandomQuestion']);
-Route::middleware(['jwt.student.verify'])->group(
-    function () {
-        Route::apiResource('/attempt', StudentAttemptStudentAttemptController::class);
-    }
-);
+// Route::middleware(['jwt.student.verify'])->group(
+//     function () {
+//         Route::apiResource('/attempt', StudentAttemptController::class);
+//     }
+// );
 
 Route::post('/generateToken', [AuthController::class, 'generateToken']);
 Route::post('/login', [AuthController::class, 'login']);

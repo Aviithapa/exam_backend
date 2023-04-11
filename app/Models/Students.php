@@ -24,9 +24,10 @@ class Students extends Model implements JWTSubject
         return $this->belongsTo(Subject::class);
     }
 
-    public function attempts()
+    public function attempt()
     {
-        return $this->hasMany(StudentAttempt::class);
+        return $this->belongsToMany(StudentAttempt::class, 'student_attempts', 'question_id', 'student_id')
+            ->withTimestamps();
     }
 
     public function getJWTIdentifier()
@@ -40,5 +41,10 @@ class Students extends Model implements JWTSubject
             'symbol_number' => $this->symbol_number,
             'date_of_birth' => $this->date_of_birth
         ];
+    }
+
+    public function question()
+    {
+        return $this->belongsToMany(Question::class);
     }
 }

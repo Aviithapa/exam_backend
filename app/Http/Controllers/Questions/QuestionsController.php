@@ -14,6 +14,7 @@ use App\Imports\StudentImport;
 use App\Models\CorrectAnswer;
 use App\Models\Option;
 use App\Models\Question;
+use App\Services\Questions\AllocateRandomQuestionStudent;
 use App\Services\Questions\QuestionsGetter;
 use App\Services\Questions\QuestionsImports;
 use App\Services\Questions\StudentQuestionGetter;
@@ -104,5 +105,12 @@ class QuestionsController extends Controller
     public function getQuestionBasedOnSubject($id, QuestionsGetter $questionGetter)
     {
         return QuestionsResource::collection($questionGetter->getQuestionBasedOnSubject($id));
+    }
+
+    public function allocateRandomQuestion(Request $request, AllocateRandomQuestionStudent $allocateRandomQuestionStudent)
+    {
+        $data = $request->all();
+
+        return QuestionsResource::collection($allocateRandomQuestionStudent->storeRandomQuestionsForStudents($data['subject_id']));
     }
 }

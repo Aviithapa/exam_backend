@@ -15,7 +15,7 @@ class StudentAttemptCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id' => 'required|exists:student,id',
+            'student_id' => 'required|exists:students,id',
             'question_id' => 'required|exists:questions,id',
             'option_ids' => 'required|array',
         ];

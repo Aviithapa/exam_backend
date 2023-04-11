@@ -12,6 +12,7 @@ class Question extends Model
     protected $fillable = [
         'question_text',
         'question_type',
+        'subject_id'
     ];
 
     public function options()
@@ -22,5 +23,11 @@ class Question extends Model
     public function correctAnswers()
     {
         return $this->hasMany(CorrectAnswer::class);
+    }
+
+    public function attempt()
+    {
+        return $this->belongsToMany(StudentAttempt::class, 'student_attempt', 'question_id', 'student_id')
+            ->withTimestamps();
     }
 }
