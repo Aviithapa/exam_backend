@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Students;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,6 @@ class AuthController extends Controller
             $user = Auth::user();
             $roles = $user->roles;
             $token = JWTAuth::fromUser($user);
-
             return response()->json([
                 'token' => $token,
                 'user' => $user,
@@ -37,15 +37,16 @@ class AuthController extends Controller
     public function generateToken(Request $request)
     {
         $symbolNumber = $request->input('symbol_number');
-        $dateOfBirth = $request->input('date_of_birth');
+        $dateOfBirth =  $request->input('date_of_birth');
 
         // Retrieve the user from the database based on the symbol_number and date_of_birth
         $user = Students::where('symbol_number', $symbolNumber)
             ->where('date_of_birth', $dateOfBirth)
             ->first();
 
+        // dd($user);
         if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Unauthorized or No Student found'], 401);
         }
 
 
@@ -56,5 +57,49 @@ class AuthController extends Controller
             'token' => $token,
             'user' => $user,
         ]);
+    }
+
+    public function refreshToken(Request $request)
+    {
+        try {
+            // Get the refresh token from the request
+            $refreshToken = $request->input('refresh_token');
+
+            // Attempt to refresh the JWT token
+            $token = JWTAuth::refresh($refreshToken);
+
+            // Return the new token as a response
+            return response()->json([
+                'status' => 'success',
+                'token' => $token
+            ]);
+        } catch (\Exception $e) {
+            // Handle any errors that occurred during token refresh
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to refresh token'
+            ], 500);
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+
+            // Invalidate the JWT token
+            JWTAuth::invalidate(JWTAuth::getToken());
+
+            // Return a success response
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Logged out successfully'
+            ]);
+        } catch (\Exception $e) {
+            // Handle any errors that occurred during logout
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to logout'
+            ], 500);
+        }
     }
 }

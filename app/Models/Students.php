@@ -16,7 +16,11 @@ class Students extends Model implements JWTSubject
         'subject',
         'administrator',
         'date_of_birth',
-        'subject_id'
+        'subject_id',
+        'is_terms_and_condition_accepted',
+        'start_time',
+        'end_time',
+        'photo_while_starting_exam'
     ];
 
     public function subject()

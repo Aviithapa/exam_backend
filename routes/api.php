@@ -24,32 +24,43 @@ use App\Http\Controllers\User\UserController;
 //     return $request->user();
 // });
 
-Route::get('/', [UserController::class, 'index']);
 
-Route::apiResource('/users', UserController::class);
+// Route::apiResource('/users', UserController::class)->only(
+//     'index',
+//     'store',
+//     'show',
+//     'destroy',
+//     'update'
+// );
 Route::apiResource('/roles', RoleController::class);
 Route::apiResource('/subject', SubjectController::class);
-Route::apiResource('/student', StudentController::class);
-Route::apiResource('/questions', QuestionsController::class);
+
+// Route::apiResource('/questions', QuestionsController::class);
 Route::post('/importSubject', [SubjectController::class, 'importSubject']);
 Route::post('/importQuestions', [QuestionsController::class, 'importQuestions']);
 Route::post('/importStudents', [StudentController::class, 'importStudent']);
 Route::get('/getStudentBasedOnSubject/{subjectId}', [StudentController::class, 'getStudentBasedOnSubject']);
-Route::get('/getQuestionBasedOnSubject/{subjectId}', [QuestionsController::class, 'getQuestionBasedOnSubject']);
+
 Route::post('/allocateRandomQuestion', [QuestionsController::class, 'allocateRandomQuestion']);
-// Route::middleware(['auth:api'])->group(
-//     function () {
-//         Route::apiResource('/questions', QuestionsController::class);
-//     }
-// );
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::apiResource('/questions', QuestionsController::class);
+        Route::apiResource('/users', UserController::class);
+    }
+);
 Route::apiResource('/attempts', StudentAttemptController::class);
 
 Route::get('/getRandomQuestion/{subjectId}', [QuestionsController::class, 'getRandomQuestion']);
-// Route::middleware(['jwt.student.verify'])->group(
-//     function () {
-//         Route::apiResource('/attempt', StudentAttemptController::class);
-//     }
-// );
+Route::middleware(['jwt.student.verify'])->group(
+    function () {
+        Route::apiResource('/attempt', StudentAttemptController::class);
+        Route::apiResource('/student', StudentController::class);
+        Route::get('/getQuestionBasedOnSubject/{subjectId}', [QuestionsController::class, 'getQuestionBasedOnSubject']);
+    }
+);
 
 Route::post('/generateToken', [AuthController::class, 'generateToken']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware(['auth:api']);
+Route::match(['post', 'get'], '/login', [AuthController::class, 'login'])->name('login');
+Route::post('/user-registration', [UserController::class, 'UserRegistration']);
+// Route::post('/auth/refresh-token', 'AuthController@refreshToken');

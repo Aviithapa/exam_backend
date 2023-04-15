@@ -24,6 +24,10 @@ class StudentResource extends JsonResource
             "administrator" => $this->administrator,
             "phone_number" => $this->phone_number,
             "email" => $this->email,
+            'is_terms_and_condition_accepted' => $this->is_terms_and_condition_accepted,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
+            'photo_while_starting_exam' => $this->photo_while_starting_exam,
         ];
     }
 }

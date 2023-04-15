@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Questions\QuestionsController;
-use App\Http\Controllers\StudentAttempt\StudentAttemptController as StudentAttemptStudentAttemptController;
-use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\Auth\AuthController;
+// use App\Http\Controllers\Questions\QuestionsController;
+// use App\Http\Controllers\StudentAttempt\StudentAttemptController as StudentAttemptStudentAttemptController;
+// use App\Http\Controllers\User\UserController;
+// use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,18 +17,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('importSubject', [QuestionsController::class, 'importQuestions']);
-Route::middleware(['auth:api'])->group(
-    function () {
-        Route::apiResource('/questions', QuestionsController::class);
-    }
-);
-Route::get('/getRandomQuestion/{subjectId}', [QuestionsController::class, 'getRandomQuestion']);
-Route::middleware(['jwt.student.verify'])->group(
-    function () {
-        Route::apiResource('/attempt', StudentAttemptStudentAttemptController::class);
-    }
-);
+// Route::post('importSubject', [QuestionsController::class, 'importQuestions']);
+// Route::middleware(['auth:api'])->group(
+//     function () {
+//         Route::apiResource('/questions', QuestionsController::class);
+//     }
+// );
+// Route::get('/getRandomQuestion/{subjectId}', [QuestionsController::class, 'getRandomQuestion']);
+// Route::middleware(['jwt.student.verify'])->group(
+//     function () {
+//         Route::apiResource('/attempt', StudentAttemptStudentAttemptController::class);
+//     }
+// );
 
-Route::post('/generateToken', [AuthController::class, 'generateToken']);
-Route::post('/login', [AuthController::class, 'login']);
+// Route::post('/generateToken', [AuthController::class, 'generateToken']);
+// Route::post('/login', [AuthController::class, 'login']);
+
+// Route::post('/users', [UserController::class, 'store']);

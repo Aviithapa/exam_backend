@@ -26,9 +26,17 @@ class StudentAttemptCreator
 
         $attempt = $this->studentAttemptRepository->getAll()->where('student_id', $studentId)->where('question_id', $questionId)->first();
 
+
         if ($attempt) {
             $this->studentAttemptRepository->update(['is_answered' => true], $attempt->id);
-            $attempt->options()->attach($optionIds);
+
+            $attempt->options()->detach();
+
+            foreach ($optionIds as $optionId) {
+                if (!$attempt->options->contains($optionId)) {
+                    $attempt->options()->attach($optionId);
+                }
+            }
         }
         // Create a new attempt
         // dd($optionIds);
