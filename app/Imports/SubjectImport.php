@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Subject;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -18,7 +19,8 @@ class SubjectImport implements ToModel, WithHeadingRow
     {
         return new Subject([
             'name' => $row['name'],
-            'display_name' => $row['display_name']
+            'display_name' => $row['display_name'],
+            'created_by' => Auth::user()->id
         ]);
     }
 }

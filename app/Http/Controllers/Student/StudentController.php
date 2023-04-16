@@ -18,6 +18,7 @@ use App\Services\Student\StudentUpdator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -76,5 +77,60 @@ class StudentController extends Controller
     public function getStudentBasedOnSubject($id, StudentGetter $studentGetter)
     {
         return StudentResource::collection($studentGetter->getStudentBasedOnSubject($id));
+    }
+
+    public function calculateStudentMarks($studentId)
+    {
+        // Join the attempt_option, student_attempts, and correct_answers tables
+        // based on their corresponding foreign keys
+        // $marks =
+        // DB::table('attempt_option')
+        // ->join('student_attempts', 'attempt_option.attempt_id', '=', 'student_attempts.id')
+        // ->join('correct_answers', function ($join) {
+        //     $join->on('student_attempts.question_id', '=', 'correct_answers.question_id')
+        //         ->on('attempt_option.option_id', '=', 'correct_answers.option_id');
+        // })
+        // ->where('student_attempts.student_id', $studentId)
+        // ->get();
+
+        // Retrieve the attempted options and correct answers for each question
+        $attemptedOptions = DB::table('attempt_option')
+            ->join('student_attempts', 'attempt_option.attempt_id', '=', 'student_attempts.id')
+            ->join('correct_answers', function ($join) {
+                $join->on('student_attempts.question_id', '=', 'correct_answers.question_id')
+                    ->on('attempt_option.option_id', '=', 'correct_answers.option_id');
+            })
+            ->where('student_attempts.student_id', $studentId)
+            ->select('student_attempts.question_id', DB::raw('COUNT(*) as count'))
+            ->groupBy('student_attempts.question_id')
+            ->get();
+
+
+        $totalMarksObtained = 0;
+        foreach ($attemptedOptions as $attemptedOption) {
+            $questionId = $attemptedOption->question_id;
+            $attemptedCount = $attemptedOption->count;
+            $correctCount = DB::table('correct_answers')
+                ->where('question_id', $questionId)
+                ->count();
+
+
+
+            // Calculate the marks for each question
+            if ($attemptedCount == 0) {
+                // If no correct answers are selected, no marks are allocated
+                $marksObtained = 0;
+            } elseif ($attemptedCount == $correctCount) {
+                // If all correct answers are selected, 1 mark is allocated
+                $marksObtained = 1;
+            } else {
+                // If some correct answers are selected, 0.5 marks are allocated
+                $marksObtained = 0.5;
+            }
+
+            $totalMarksObtained += $marksObtained;
+        }
+
+        return $totalMarksObtained;
     }
 }

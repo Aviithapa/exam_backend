@@ -70,6 +70,7 @@ class StudentImports
             $studentData['program'] = $cellValues[6];
 
 
+
             $student = $this->studentRepository->getAll()->where('email', $studentData['email'])->first();
 
             if (!$student) {
@@ -78,7 +79,7 @@ class StudentImports
                 if (!$program) {
                     $programData['name'] = $studentData['program'];
                     $programData['display_name'] = $studentData['program'];
-                    // $programData['created_by'] = Auth::user()->id;
+                    $programData['created_by'] = Auth::user()->id;
                     $program = $this->subjectRepository->create($programData);
                 }
 

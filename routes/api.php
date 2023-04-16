@@ -32,20 +32,24 @@ use App\Http\Controllers\User\UserController;
 //     'destroy',
 //     'update'
 // );
-Route::apiResource('/roles', RoleController::class);
-Route::apiResource('/subject', SubjectController::class);
+
+
 
 // Route::apiResource('/questions', QuestionsController::class);
-Route::post('/importSubject', [SubjectController::class, 'importSubject']);
-Route::post('/importQuestions', [QuestionsController::class, 'importQuestions']);
-Route::post('/importStudents', [StudentController::class, 'importStudent']);
+
+
 Route::get('/getStudentBasedOnSubject/{subjectId}', [StudentController::class, 'getStudentBasedOnSubject']);
 
 Route::post('/allocateRandomQuestion', [QuestionsController::class, 'allocateRandomQuestion']);
 Route::middleware(['auth:api'])->group(
     function () {
+        Route::apiResource('/roles', RoleController::class);
         Route::apiResource('/questions', QuestionsController::class);
         Route::apiResource('/users', UserController::class);
+        Route::post('/importStudents', [StudentController::class, 'importStudent']);
+        Route::apiResource('/subject', SubjectController::class);
+        Route::post('/importSubject', [SubjectController::class, 'importSubject']);
+        Route::post('/importQuestions', [QuestionsController::class, 'importQuestions']);
     }
 );
 Route::apiResource('/attempts', StudentAttemptController::class);
@@ -61,6 +65,7 @@ Route::middleware(['jwt.student.verify'])->group(
 
 Route::post('/generateToken', [AuthController::class, 'generateToken']);
 Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware(['auth:api']);
+Route::post('/auth/password-change', [AuthController::class, 'changePassword'])->middleware(['auth:api']);
 Route::match(['post', 'get'], '/login', [AuthController::class, 'login'])->name('login');
-Route::post('/user-registration', [UserController::class, 'UserRegistration']);
 // Route::post('/auth/refresh-token', 'AuthController@refreshToken');
+Route::get('/calculateStudentMarks/{studentId}', [StudentController::class, 'calculateStudentMarks']);

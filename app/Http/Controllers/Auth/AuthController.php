@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Students;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -99,6 +100,38 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Failed to logout'
+            ], 500);
+        }
+    }
+
+    public function changePassword(Request $request)
+    {
+        try {
+
+            $id = Auth::user()->id;
+            // Find the user by email
+            $user = User::where('id', $id)->first();
+
+            // If user not found, return an error response
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+            if (Hash::check($request->password, $user->password)) {
+                $user->update([
+                    'password' => bcrypt($request->new_password)
+                ]);
+                // JWTAuth::invalidate(JWTAuth::getToken());
+                return response()->json(['message' => 'Password reset successful']);
+            }
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Old Password Doesnot Match'
+            ], 404);
+        } catch (\Exception $e) {
+            // Handle any errors that occurred during token refresh
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to refresh token'
             ], 500);
         }
     }

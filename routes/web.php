@@ -1,10 +1,10 @@
 <?php
 
-// use App\Http\Controllers\Auth\AuthController;
-// use App\Http\Controllers\Questions\QuestionsController;
-// use App\Http\Controllers\StudentAttempt\StudentAttemptController as StudentAttemptStudentAttemptController;
-// use App\Http\Controllers\User\UserController;
-// use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Questions\QuestionsController;
+use App\Http\Controllers\StudentAttempt\StudentAttemptController as StudentAttemptStudentAttemptController;
+use App\Http\Controllers\User\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +34,5 @@
 // Route::post('/login', [AuthController::class, 'login']);
 
 // Route::post('/users', [UserController::class, 'store']);
+
+Route::get('/users', [UserController::class, 'details']);

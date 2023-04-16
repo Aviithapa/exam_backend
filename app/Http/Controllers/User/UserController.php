@@ -60,7 +60,7 @@ class UserController extends Controller
 
     public function show(UserGetter $userGetter, $id)
     {
-        return $this->successResponse(UserResource::make($userGetter->show($id)));
+        return $userGetter->show($id);
     }
 
     public function destroy(UserUpdater $userUpdater, $id)
