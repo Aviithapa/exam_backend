@@ -5,6 +5,7 @@ use App\Http\Controllers\Questions\QuestionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Roles\RoleController;
+use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\StudentAttempt\StudentAttemptController;
 use App\Http\Controllers\Subject\SubjectController;
@@ -48,6 +49,7 @@ Route::middleware(['auth:api'])->group(
         Route::apiResource('/users', UserController::class);
         Route::post('/importStudents', [StudentController::class, 'importStudent']);
         Route::apiResource('/subject', SubjectController::class);
+        Route::apiResource('/setting', SettingController::class);
         Route::post('/importSubject', [SubjectController::class, 'importSubject']);
         Route::post('/importQuestions', [QuestionsController::class, 'importQuestions']);
     }

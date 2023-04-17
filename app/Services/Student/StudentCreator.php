@@ -15,6 +15,7 @@ class StudentCreator
 
     public function store($data)
     {
+        $data['active'] = true;
         return $this->studentRepository->create($data);
     }
 }

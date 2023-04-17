@@ -198,6 +198,8 @@ return [
         // Auth Jwt Service Providers...
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
+        Spatie\Backup\BackupServiceProvider::class,
+
     ],
 
     /*

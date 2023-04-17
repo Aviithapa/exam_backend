@@ -9,6 +9,8 @@ use App\Repositories\Questions\EloquentQuestionsRepository;
 use App\Repositories\Questions\QuestionsRepository;
 use App\Repositories\Role\EloquentRoleRepository;
 use App\Repositories\Role\RoleRepository;
+use App\Repositories\Setting\EloquentSettingRepository;
+use App\Repositories\Setting\SettingRepository;
 use App\Repositories\Student\EloquentStudentRepository;
 use App\Repositories\Student\StudentRepository;
 use App\Repositories\StudentAttempt\EloquentStudentAttemptRepository;
@@ -68,6 +70,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             StudentAttemptRepository::class,
             EloquentStudentAttemptRepository::class
+        );
+
+        $this->app->bind(
+            SettingRepository::class,
+            EloquentSettingRepository::class
         );
     }
 }
