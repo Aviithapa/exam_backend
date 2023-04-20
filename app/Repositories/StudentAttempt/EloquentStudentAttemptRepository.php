@@ -23,12 +23,13 @@ class EloquentStudentAttemptRepository extends RepositoryImplementation implemen
             ->paginate($limit);
     }
 
-    public function pulchockWiseData($id): LengthAwarePaginator
+    public function pulchockWiseData(Request $request,  $id, array $columns = array('*'),): LengthAwarePaginator
     {
         // Retrieve data with pagination
+        $limit = $request->get('limit', config('app.per_page'));
         return $this->getModel()
             ->where('student_id', $id) // Add a where clause to filter by subject ID
             ->latest()
-            ->paginate($this->perPage());
+            ->paginate($limit);
     }
 }

@@ -45,4 +45,41 @@ class StudentAttemptCreator
 
         return response()->json(['message' => 'Attempt stored successfully'], 201);
     }
+
+
+    public function storeMultipleQuestionAnswer($data)
+    {
+
+
+        $studentId = $data['student_id'];
+        $questionOptions = $data['data'];
+        // dd($questionOptions);
+
+        foreach ($questionOptions as $key => $optionIds) {
+            if (isset($optionIds)) {
+                $attempt = $this->studentAttemptRepository->getAll()->where('student_id', $studentId)->where('question_id', $key)->first();
+                if ($attempt) {
+
+                    $this->studentAttemptRepository->update(['is_answered' => true], $attempt->id);
+
+                    $attempt->options()->detach();
+
+                    // Check if $optionIds is defined
+                    if (is_array($optionIds) || is_object($optionIds)) {
+                        foreach ($optionIds as $optionId) {
+                            if (!$attempt->options->contains($optionId)) {
+                                $attempt->options()->attach($optionId);
+                            }
+                        }
+                    } else {
+                        if (!$attempt->options->contains($optionIds)) {
+                            $attempt->options()->attach($optionIds);
+                        }
+                    }
+                }
+            }
+        }
+
+        return response()->json(['data' => $questionOptions], 201);
+    }
 }

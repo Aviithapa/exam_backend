@@ -57,6 +57,8 @@ Route::middleware(['auth:api'])->group(
     }
 );
 Route::apiResource('/attempts', StudentAttemptController::class);
+Route::post('/storeMultipleQuestionAnswer', [StudentAttemptController::class, 'storeMultipleQuestionAnswer']);
+
 
 Route::get('/getRandomQuestion/{subjectId}', [QuestionsController::class, 'getRandomQuestion']);
 Route::middleware(['jwt.student.verify'])->group(

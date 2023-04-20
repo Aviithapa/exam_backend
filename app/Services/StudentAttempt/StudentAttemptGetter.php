@@ -32,9 +32,9 @@ class StudentAttemptGetter
      * @param Request $request
      * @return LengthAwarePaginator
      */
-    public function getPaginatedList(): LengthAwarePaginator
+    public function getPaginatedList(Request $request): LengthAwarePaginator
     {
-        return  $this->studentAttemptRepository->getWithPagination();
+        return  $this->studentAttemptRepository->getPaginatedList($request);
     }
 
     /**
@@ -49,10 +49,9 @@ class StudentAttemptGetter
 
 
 
-    public function pulchockWiseData($id): LengthAwarePaginator
+    public function pulchockWiseData($request, $id): LengthAwarePaginator
     {
-
-
-        return $this->studentAttemptRepository->pulchockWiseData($id);
+        $results = $this->studentAttemptRepository->pulchockWiseData($request, $id);
+        return $results;
     }
 }
