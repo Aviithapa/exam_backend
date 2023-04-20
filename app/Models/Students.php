@@ -20,7 +20,9 @@ class Students extends Model implements JWTSubject
         'is_terms_and_condition_accepted',
         'start_time',
         'end_time',
-        'photo_while_starting_exam'
+        'photo_while_starting_exam',
+        'marks',
+        'status'
     ];
 
     public function subject()

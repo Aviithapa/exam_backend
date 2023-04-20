@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Exports\StudentsExport;
 use App\Http\Controllers\Api\ApiResponser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\StudentCreateRequest;
@@ -15,6 +16,7 @@ use App\Services\Student\StudentUpdator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
@@ -77,5 +79,10 @@ class StudentController extends Controller
         // Join the attempt_option, student_attempts, and correct_answers tables
         // based on their corresponding foreign keys
         return $studentResult->calculateStudentMarks($studentId);
+    }
+
+    public function exportStudentsToExcel()
+    {
+        return Excel::download(new StudentsExport, 'students.xlsx');
     }
 }

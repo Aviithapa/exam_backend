@@ -52,6 +52,8 @@ Route::middleware(['auth:api'])->group(
         Route::apiResource('/setting', SettingController::class);
         Route::post('/importSubject', [SubjectController::class, 'importSubject']);
         Route::post('/importQuestions', [QuestionsController::class, 'importQuestions']);
+        Route::get('/calculateStudentMarks/{studentId}', [StudentController::class, 'calculateStudentMarks']);
+        Route::get('/exportStudentsDataToExcel', [StudentController::class, 'exportStudentsToExcel']);
     }
 );
 Route::apiResource('/attempts', StudentAttemptController::class);
@@ -60,14 +62,16 @@ Route::get('/getRandomQuestion/{subjectId}', [QuestionsController::class, 'getRa
 Route::middleware(['jwt.student.verify'])->group(
     function () {
         Route::apiResource('/attempt', StudentAttemptController::class);
+        Route::apiResource('/attempt', StudentAttemptController::class);
+
+
         Route::apiResource('/student', StudentController::class);
         Route::get('/getQuestionBasedOnSubject/{subjectId}', [QuestionsController::class, 'getQuestionBasedOnSubject']);
     }
 );
-
+Route::get('/pulchockWiseData/{id}', [StudentAttemptController::class, 'pulchockWiseData']);
 Route::post('/generateToken', [AuthController::class, 'generateToken']);
 Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware(['auth:api']);
 Route::post('/auth/password-change', [AuthController::class, 'changePassword'])->middleware(['auth:api']);
 Route::match(['post', 'get'], '/login', [AuthController::class, 'login'])->name('login');
 // Route::post('/auth/refresh-token', 'AuthController@refreshToken');
-Route::get('/calculateStudentMarks/{studentId}', [StudentController::class, 'calculateStudentMarks']);

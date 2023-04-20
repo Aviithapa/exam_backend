@@ -35,7 +35,7 @@ class StudentAttemptController extends Controller
 
     public function show(StudentAttemptGetter $studentGetter, $id)
     {
-        return $this->successResponse(StudentAttemptResource::collection($studentGetter->show($id)));
+        return StudentAttemptResource::collection($studentGetter->show($id));
     }
 
     public function destroy(StudentUpdator $studentUpdater, $id)
@@ -46,5 +46,10 @@ class StudentAttemptController extends Controller
             __('Student deleted successfully'),
             Response::HTTP_ACCEPTED
         );
+    }
+
+    public function pulchockWiseData(StudentAttemptGetter $studentGetter, $id)
+    {
+        return StudentAttemptResource::collection($studentGetter->pulchockWiseData($id));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services\Student;
 
+use App\Repositories\Setting\SettingRepository;
 use App\Repositories\Student\StudentRepository;
 use Illuminate\Http\Request;
 use App\Repositories\Subject\SubjectRepository;
@@ -21,15 +22,17 @@ class StudentResult
     /**
      * @var StudentRepository
      */
-    protected $studentRepository;
+    protected $studentRepository, $subjectRepository, $settingRepository;
 
     /**
      * StudentGetter constructor.
      * @param StudentRepository $studentRepository
      */
-    public function __construct(StudentRepository $studentRepository)
+    public function __construct(StudentRepository $studentRepository, SubjectRepository $subjectRepository, SettingRepository $settingRepository)
     {
         $this->studentRepository = $studentRepository;
+        $this->subjectRepository = $subjectRepository;
+        $this->settingRepository = $settingRepository;
     }
 
     /**
@@ -45,24 +48,9 @@ class StudentResult
     public function calculateStudentMarks($studentId)
     {
 
-        // try {
-        //     // Create a database backup
-        //     // Backup::run();
-        //     // Backup
-        //     Artisan::call("backup:run");
-
-        //     // Delete all records from the users table
-        //     // User::truncate();
-
-        //     // Return a success response
-        //     return response()->json(['message' => 'Data deleted and database backup created successfully']);
-        // } catch (\Exception $e) {
-        //     // Log the error
-        //     Log::error('Failed to delete data and create backup: ' . $e->getMessage());
-
-        //     // Return an error response
-        //     return response()->json(['error' => 'Failed to delete data and create backup'], 500);
-        // }
+        $student = $this->studentRepository->findById($studentId);
+        $subject = $this->subjectRepository->findById($student->subject_id);
+        $settings  =  $this->settingRepository->findByFirst('created_by', $subject->created_by, '=');
         $marks =
             DB::table('attempt_option')
             ->join('student_attempts', 'attempt_option.attempt_id', '=', 'student_attempts.id')
@@ -71,7 +59,6 @@ class StudentResult
                     ->on('attempt_option.option_id', '=', 'correct_answers.option_id');
             })
             ->where('student_attempts.student_id', $studentId)
-            // ->groupBy('student_attempts.question_id')
             ->select('student_attempts.question_id', DB::raw('COUNT(*) as count'))
             ->groupBy('student_attempts.question_id')
             ->get();
@@ -92,15 +79,18 @@ class StudentResult
                 $marksObtained = 0;
             } elseif ($attemptedCount == $correctCount) {
                 // If all correct answers are selected, 1 mark is allocated
-                $marksObtained = 1;
+                $marksObtained = $settings->marks_per_question;
             } else {
                 // If some correct answers are selected, 0.5 marks are allocated
-                $marksObtained = 0.5;
+                if ($settings->an_option_right_marking)
+                    $marksObtained = $settings->marks_per_question * $attemptedCount  / $correctCount;
             }
 
             $totalMarksObtained += $marksObtained;
         }
-
+        $data['marks'] = $totalMarksObtained;
+        $data['status'] = $totalMarksObtained >= $settings->passing_mark ? 'PASSED' : 'FAILED';
+        $this->studentRepository->update($data, $studentId);
         return $totalMarksObtained;
     }
 }

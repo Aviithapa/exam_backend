@@ -2,6 +2,7 @@
 
 namespace App\Services\StudentAttempt;
 
+use App\Models\StudentAttempt;
 use App\Repositories\StudentAttempt\StudentAttemptRepository;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -33,7 +34,7 @@ class StudentAttemptGetter
      */
     public function getPaginatedList(): LengthAwarePaginator
     {
-        return $this->studentAttemptRepository->getWithPagination();
+        return  $this->studentAttemptRepository->getWithPagination();
     }
 
     /**
@@ -44,5 +45,14 @@ class StudentAttemptGetter
     public function show($id)
     {
         return $this->studentAttemptRepository->findBy('student_id', '=',  $id);
+    }
+
+
+
+    public function pulchockWiseData($id): LengthAwarePaginator
+    {
+
+
+        return $this->studentAttemptRepository->pulchockWiseData($id);
     }
 }

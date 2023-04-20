@@ -6,4 +6,5 @@ use App\Repositories\Repository;
 
 interface StudentAttemptRepository  extends  Repository
 {
+    public function pulchockWiseData($id);
 }
