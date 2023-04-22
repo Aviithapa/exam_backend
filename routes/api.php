@@ -5,6 +5,7 @@ use App\Http\Controllers\Questions\QuestionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Roles\RoleController;
+use App\Http\Controllers\Media\MediaController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\StudentAttempt\StudentAttemptController;
@@ -76,4 +77,6 @@ Route::post('/generateToken', [AuthController::class, 'generateToken']);
 Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware(['auth:api']);
 Route::post('/auth/password-change', [AuthController::class, 'changePassword'])->middleware(['auth:api']);
 Route::match(['post', 'get'], '/login', [AuthController::class, 'login'])->name('login');
+Route::apiResource('/media', MediaController::class);
+
 // Route::post('/auth/refresh-token', 'AuthController@refreshToken');

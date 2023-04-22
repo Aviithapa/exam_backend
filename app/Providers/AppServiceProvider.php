@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Role;
+use App\Repositories\Media\EloquentMediaRepository;
+use App\Repositories\Media\MediaRepository;
 use App\Repositories\Option\EloquentOptionRepository;
 use App\Repositories\Option\OptionRepository;
 use App\Repositories\Questions\EloquentQuestionsRepository;
@@ -75,6 +77,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             SettingRepository::class,
             EloquentSettingRepository::class
+        );
+
+        $this->app->bind(
+            MediaRepository::class,
+            EloquentMediaRepository::class
         );
     }
 }
