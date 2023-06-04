@@ -23,9 +23,9 @@ class SubjectController extends Controller
 {
     use ApiResponser;
 
-    public function index(SubjectGetter $subjectGetter)
+    public function index(Request $request, SubjectGetter $subjectGetter)
     {
-        return SubjectResource::collection($subjectGetter->getPaginatedList());
+        return SubjectResource::collection($subjectGetter->getPaginatedList($request));
     }
 
     public function store(SubjectCreateRequest $request, SubjectCreator $subjectCreator): JsonResponse

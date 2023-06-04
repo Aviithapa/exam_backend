@@ -80,8 +80,9 @@ class QuestionsImports
 
             if ($questionType === 'radio') {
 
+                $correctAnswer = $cellValues[$correctAnswerData];
                 $option = $this->optionRepository->getAll()->where('question_id', $question->id)
-                    ->where('option_text', $correctAnswerData)
+                    ->where('option_text', $correctAnswer)
                     ->first();
 
 
@@ -101,10 +102,9 @@ class QuestionsImports
                 $correctAnswerArray = explode(':', $correctAnswerData);
                 foreach ($correctAnswerArray as $correctAnswer) {
 
-                    // $correctAnswerWithoutSpaces =
-                    //     str_replace(' ', '', $correctAnswer);
+                    $correctAnswerData = $cellValues[$correctAnswer];
                     $option = $this->optionRepository->getAll()->where('question_id', $question->id)
-                        ->where('option_text', $correctAnswer)
+                        ->where('option_text', $correctAnswerData)
                         ->first();
 
 

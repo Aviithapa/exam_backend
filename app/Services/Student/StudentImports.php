@@ -73,8 +73,9 @@ class StudentImports
 
             $student = $this->studentRepository->getAll()->where('email', $studentData['email'])->first();
 
+
             if (!$student) {
-                $program = Subject::where('name', $studentData['program'])->first();
+                $program = Subject::where('name', $studentData['program'])->where('created_by', Auth::user()->id)->first();
 
                 if (!$program) {
                     $programData['name'] = $studentData['program'];

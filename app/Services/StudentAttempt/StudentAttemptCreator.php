@@ -38,10 +38,6 @@ class StudentAttemptCreator
                 }
             }
         }
-        // Create a new attempt
-        // dd($optionIds);
-
-        // Attach selected options to the attempt
 
         return response()->json(['message' => 'Attempt stored successfully'], 201);
     }

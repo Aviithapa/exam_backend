@@ -23,9 +23,9 @@ class StudentController extends Controller
     //
     use ApiResponser;
 
-    public function index(StudentGetter $studentGetter)
+    public function index(Request $request, StudentGetter $studentGetter)
     {
-        return StudentResource::collection($studentGetter->getPaginatedList());
+        return StudentResource::collection($studentGetter->getPaginatedList($request));
     }
 
     public function store(StudentCreateRequest $request, StudentCreator $studentCreator): JsonResponse

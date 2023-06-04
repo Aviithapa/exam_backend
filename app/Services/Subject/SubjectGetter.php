@@ -32,9 +32,9 @@ class SubjectGetter
      * @param Request $request
      * @return LengthAwarePaginator
      */
-    public function getPaginatedList(): LengthAwarePaginator
+    public function getPaginatedList($request): LengthAwarePaginator
     {
-        return $this->subjectRepository->getWithPagination();
+        return $this->subjectRepository->getPaginatedList($request);
     }
 
     /**

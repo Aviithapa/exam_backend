@@ -102,9 +102,9 @@ class QuestionsController extends Controller
         );
     }
 
-    public function getQuestionBasedOnSubject($id, QuestionsGetter $questionGetter)
+    public function getQuestionBasedOnSubject(Request $request,  $id, QuestionsGetter $questionGetter)
     {
-        return QuestionsResource::collection($questionGetter->getQuestionBasedOnSubject($id));
+        return QuestionsResource::collection($questionGetter->getQuestionBasedOnSubject($request, $id));
     }
 
     public function allocateRandomQuestion(Request $request, AllocateRandomQuestionStudent $allocateRandomQuestionStudent)

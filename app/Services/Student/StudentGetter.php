@@ -33,9 +33,9 @@ class StudentGetter
      * @param Request $request
      * @return LengthAwarePaginator
      */
-    public function getPaginatedList(): LengthAwarePaginator
+    public function getPaginatedList($request): LengthAwarePaginator
     {
-        return $this->studentRepository->getWithPagination();
+        return $this->studentRepository->getPaginatedList($request);
     }
 
     /**

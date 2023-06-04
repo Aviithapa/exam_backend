@@ -46,8 +46,8 @@ class QuestionsGetter
         return $this->questionRepository->findById($id);
     }
 
-    public function getQuestionBasedOnSubject($id)
+    public function getQuestionBasedOnSubject(Request $request, $id): LengthAwarePaginator
     {
-        return $this->questionRepository->getAll()->where('subject_id', $id);
+        return $this->questionRepository->getQuestionBasedOnSubject($request, $id);
     }
 }
